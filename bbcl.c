@@ -2,11 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+static char *
+endname(char * name, const char end) {
+	char * ob = strchr(name, end);
+	if (ob)
+		ob[0] = '\0';
+	return ob;
+}
+
 int
 main(int argc, char *argv[]) {
 	char * buff = NULL;
 	size_t size = 0;
-	char * ob;
 	char * name;
 	while (getline(&buff, &size, stdin) > 0) {
 		if (size < 21)
@@ -14,16 +21,12 @@ main(int argc, char *argv[]) {
 		switch (buff[18]) {
 		case '!':
 			name = buff + 21;
-			ob = strchr(name, '(');
-			if (!ob)
+			if (!endname(name, '('))
 				continue;
-			ob[0] = '\0';
 			break;
 		case 'v':
 			name = buff + 19;
-			ob = strchr(name, '\n');
-			if (ob)
-				ob[0] = '\0';
+			endname(name, '\n');
 			break;
 		default:
 			continue;
