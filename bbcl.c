@@ -132,7 +132,8 @@ main(int argc, char *argv[]) {
 		default:
 			continue;
 		}
-		printf("----------\n");
+//		printf("\x1b[2J\x1b[H");
+		printf("\n");
 		print();
 	}
 	clear();
