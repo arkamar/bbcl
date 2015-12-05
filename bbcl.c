@@ -41,7 +41,6 @@ find(const char * name) {
 static int
 add(const char * name) {
 	size_t len = strlen(name) + 1;
-	printf("+%2d:%s\n", len, name);
 	if (find(name))
 		return 1;
 	struct node * new = malloc(sizeof(struct node) + len);
@@ -62,7 +61,6 @@ add(const char * name) {
 
 static int
 away(const char * name) {
-	printf("-%2d:%s\n", strlen(name), name);
 	return 0;
 }
 
@@ -84,7 +82,6 @@ delete(const char * name) {
 
 		free(n);
 	}
-	printf("!%2d:%s\n", strlen(name), name);
 	return 0;
 }
 
