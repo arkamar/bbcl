@@ -91,7 +91,7 @@ print() {
 	n = front;
 	while (n) {
 		char * name = getname(n);
-		printf("name: %s\n", name);
+		printf("%s\n", name);
 		n = n->next;
 	}
 }
@@ -132,8 +132,9 @@ main(int argc, char *argv[]) {
 		default:
 			continue;
 		}
+		printf("----------\n");
+		print();
 	}
-	print();
 	clear();
 	free(buff);
 	return 0;
