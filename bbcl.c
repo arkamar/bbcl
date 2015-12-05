@@ -31,8 +31,10 @@ find(const char * name, struct node ** ret) {
 	struct node * n = front;
 	while (n) {
 		int comparison = strcmp(name, getname(n));
-		if (ret && comparison >= 0)
+		if (ret && comparison > 0)
 			*ret = n;
+		if (comparison < 0)
+			return NULL;
 		if (comparison == 0)
 			break;
 		n = n->next;
