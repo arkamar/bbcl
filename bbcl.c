@@ -24,6 +24,9 @@ endname(char * name, const char end) {
 	return ob;
 }
 
+#define getname(node) \
+	((char *)(node + 1))
+
 static int
 add(const char * name) {
 	size_t len = strlen(name) + 1;
@@ -33,6 +36,7 @@ add(const char * name) {
 		perror("Cannont allocate memmory");
 		return -1;
 	}
+	memcpy(new + 1, name, len);
 	new->next = NULL;
 	new->prev = rear;
 	if (front == NULL)
@@ -53,6 +57,17 @@ static int
 delete(const char * name) {
 	printf("!%2d:%s\n", strlen(name), name);
 	return 0;
+}
+
+static void
+print() {
+	struct node * n;
+	n = front;
+	while (n) {
+		char * name = getname(n);
+		printf("name: %s\n", name);
+		n = n->next;
+	}
 }
 
 static void
@@ -92,6 +107,7 @@ main(int argc, char *argv[]) {
 			continue;
 		}
 	}
+	print();
 	clear();
 	free(buff);
 	return 0;
