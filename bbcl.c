@@ -42,6 +42,8 @@ static int
 add(const char * name) {
 	size_t len = strlen(name) + 1;
 	printf("+%2d:%s\n", len, name);
+	if (find(name))
+		return 1;
 	struct node * new = malloc(sizeof(struct node) + len);
 	if (new == NULL) {
 		perror("Cannont allocate memmory");
