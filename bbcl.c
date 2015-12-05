@@ -7,6 +7,15 @@
 #define COLOR_OFFLINE	"\x1b[1;31m"
 #define COLOR_RESET		"\x1b[0m"
 
+struct node {
+	struct node * next;
+	struct node * prev;
+	size_t len;
+};
+
+static struct node * front = NULL;
+static struct node * rear = NULL;
+
 static char *
 endname(char * name, const char end) {
 	char * ob = strchr(name, end);
@@ -17,20 +26,43 @@ endname(char * name, const char end) {
 
 static int
 add(const char * name) {
-	printf("+%s\n", name);
+	size_t len = strlen(name) + 1;
+	printf("+%2d:%s\n", len, name);
+	struct node * new = malloc(sizeof(struct node) + len);
+	if (new == NULL) {
+		perror("Cannont allocate memmory");
+		return -1;
+	}
+	new->next = NULL;
+	new->prev = rear;
+	if (front == NULL)
+		front = new;
+	if (rear != NULL)
+		rear->next = new;
+	rear = new;
 	return 0;
 }
 
 static int
 away(const char * name) {
-	printf("-%s\n", name);
+	printf("-%2d:%s\n", strlen(name), name);
 	return 0;
 }
 
 static int
 delete(const char * name) {
-	printf("!%s\n", name);
+	printf("!%2d:%s\n", strlen(name), name);
 	return 0;
+}
+
+static void
+clear() {
+	struct node * n;
+	while (front) {
+		n = front->next;
+		free(front);
+		front = n;
+	}
 }
 
 int
@@ -60,6 +92,7 @@ main(int argc, char *argv[]) {
 			continue;
 		}
 	}
+	clear();
 	free(buff);
 	return 0;
 }
