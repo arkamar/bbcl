@@ -3,8 +3,8 @@
 FILE="out"
 
 getdata() {
-	cat "${FILE}" \
-		| grep '^2015-12-05'
+	cat "${FILE}"
+#		| grep '^2015-12-05'
 }
 
 simlatebb() {
