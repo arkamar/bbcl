@@ -53,8 +53,35 @@ away(const char * name) {
 	return 0;
 }
 
+static struct node *
+find(const char * name) {
+	struct node * n = front;
+	while (n) {
+		if (!strcmp(name, getname(n)))
+			break;
+		n = n->next;
+	}
+	return n;
+}
+
 static int
 delete(const char * name) {
+	struct node * n = find(name);
+	if (n) {
+		struct node * next = n->next;
+		struct node * prev = n->prev;
+		if (next == NULL)
+			rear = prev;
+		else
+			next->prev = prev;
+
+		if (prev == NULL)
+			front = next;
+		else
+			prev->next = next;
+
+		free(n);
+	}
 	printf("!%2d:%s\n", strlen(name), name);
 	return 0;
 }
