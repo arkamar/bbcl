@@ -14,7 +14,6 @@ struct node {
 };
 
 static struct node * front = NULL;
-static struct node * rear = NULL;
 
 static char *
 endname(char * name, const char end) {
@@ -32,7 +31,7 @@ find(const char * name, struct node ** ret) {
 	struct node * n = front;
 	while (n) {
 		int comparison = strcmp(name, getname(n));
-		if (ret && comparison < 0)
+		if (ret && comparison >= 0)
 			*ret = n;
 		if (comparison == 0)
 			break;
@@ -47,21 +46,25 @@ add(const char * name) {
 	struct node * la = NULL;
 	if (find(name, &la))
 		return 1;
-	if (!la)
-		la = front;
 	struct node * new = malloc(sizeof(struct node) + len);
 	if (new == NULL) {
 		perror("Cannont allocate memmory");
 		return -1;
 	}
 	memcpy(new + 1, name, len);
-	new->next = NULL;
-	new->prev = rear;
-	if (front == NULL)
+
+	new->prev = la;
+	if (la != NULL) { /* I am in middle */
+		new->next = la->next;
+		la->next = new;
+	} else { /* front */
+		new->next = front;
 		front = new;
-	if (rear != NULL)
-		rear->next = new;
-	rear = new;
+	}
+
+	if (new->next) /* not rear */
+		new->next->prev = new;
+
 	return 0;
 }
 
@@ -76,9 +79,7 @@ delete(const char * name) {
 	if (n) {
 		struct node * next = n->next;
 		struct node * prev = n->prev;
-		if (next == NULL)
-			rear = prev;
-		else
+		if (next != NULL)
 			next->prev = prev;
 
 		if (prev == NULL)
@@ -139,8 +140,8 @@ main(int argc, char *argv[]) {
 			continue;
 		}
 //		printf("\x1b[2J\x1b[H");
-		printf("\n");
 		print();
+		printf("\n");
 	}
 	clear();
 	free(buff);
