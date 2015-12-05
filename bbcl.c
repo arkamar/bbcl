@@ -15,6 +15,24 @@ endname(char * name, const char end) {
 	return ob;
 }
 
+static int
+add(const char * name) {
+	printf("+%s\n", name);
+	return 0;
+}
+
+static int
+away(const char * name) {
+	printf("-%s\n", name);
+	return 0;
+}
+
+static int
+delete(const char * name) {
+	printf("!%s\n", name);
+	return 0;
+}
+
 int
 main(int argc, char *argv[]) {
 	char * buff = NULL;
@@ -28,15 +46,19 @@ main(int argc, char *argv[]) {
 			name = buff + 21;
 			if (!endname(name, '('))
 				continue;
+			delete(name);
 			break;
 		case 'v':
 			name = buff + 19;
 			endname(name, '\n');
+			if (buff[17] == '+')
+				add(name);
+			else
+				away(name);
 			break;
 		default:
 			continue;
 		}
-		printf("%s\n", name);
 	}
 	free(buff);
 	return 0;
