@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define COLOR_ONLINE		"\x1b[1;32m"
+#define COLOR_AWAY		"\x1b[1;33m"
+#define COLOR_OFFLINE	"\x1b[1;31m"
+#define COLOR_RESET		"\x1b[0m"
+
 static char *
 endname(char * name, const char end) {
 	char * ob = strchr(name, end);
