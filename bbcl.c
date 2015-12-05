@@ -28,10 +28,13 @@ endname(char * name, const char end) {
 	((char *)(node + 1))
 
 static struct node *
-find(const char * name) {
+find(const char * name, struct node ** ret) {
 	struct node * n = front;
 	while (n) {
-		if (!strcmp(name, getname(n)))
+		int comparison = strcmp(name, getname(n));
+		if (ret && comparison < 0)
+			*ret = n;
+		if (comparison == 0)
 			break;
 		n = n->next;
 	}
@@ -41,8 +44,11 @@ find(const char * name) {
 static int
 add(const char * name) {
 	size_t len = strlen(name) + 1;
-	if (find(name))
+	struct node * la = NULL;
+	if (find(name, &la))
 		return 1;
+	if (!la)
+		la = front;
 	struct node * new = malloc(sizeof(struct node) + len);
 	if (new == NULL) {
 		perror("Cannont allocate memmory");
@@ -66,7 +72,7 @@ away(const char * name) {
 
 static int
 delete(const char * name) {
-	struct node * n = find(name);
+	struct node * n = find(name, NULL);
 	if (n) {
 		struct node * next = n->next;
 		struct node * prev = n->prev;
