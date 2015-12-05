@@ -27,6 +27,17 @@ endname(char * name, const char end) {
 #define getname(node) \
 	((char *)(node + 1))
 
+static struct node *
+find(const char * name) {
+	struct node * n = front;
+	while (n) {
+		if (!strcmp(name, getname(n)))
+			break;
+		n = n->next;
+	}
+	return n;
+}
+
 static int
 add(const char * name) {
 	size_t len = strlen(name) + 1;
@@ -51,17 +62,6 @@ static int
 away(const char * name) {
 	printf("-%2d:%s\n", strlen(name), name);
 	return 0;
-}
-
-static struct node *
-find(const char * name) {
-	struct node * n = front;
-	while (n) {
-		if (!strcmp(name, getname(n)))
-			break;
-		n = n->next;
-	}
-	return n;
 }
 
 static int
