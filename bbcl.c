@@ -100,7 +100,7 @@ print() {
 	n = front;
 	while (n) {
 		char * name = getname(n);
-		printf("%s\n", name);
+		printf("%s\x1b[0K\n", name);
 		n = n->next;
 	}
 }
@@ -141,9 +141,10 @@ main(int argc, char *argv[]) {
 		default:
 			continue;
 		}
-//		printf("\x1b[2J\x1b[H");
+		printf("\x1b[1H");
 		print();
-		printf("\n");
+		printf("\x1b[0J");
+		fflush(stdout);
 	}
 	clear();
 	free(buff);
