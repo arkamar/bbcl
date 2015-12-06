@@ -64,7 +64,7 @@ add(const char * name) {
 		front = new;
 	}
 
-	if (new->next) /* not rear */
+	if (new->next)
 		new->next->prev = new;
 
 	return 0;
