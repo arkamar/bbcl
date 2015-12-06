@@ -21,7 +21,3 @@ LDFLAGS = -s ${LIBS}
 # Solaris
 #CFLAGS = -fast ${INCS} -DVERSION=\"${VERSION}\"
 #LDFLAGS = ${LIBS}
-
-# compiler and linker
-CC = clang
-
