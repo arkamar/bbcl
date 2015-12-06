@@ -6,6 +6,9 @@
 #define COLOR_AWAY		"\x1b[1;33m"
 #define COLOR_OFFLINE	"\x1b[1;31m"
 #define COLOR_RESET		"\x1b[0m"
+#define CLEAR_LINE		"\x1b[0K"
+#define CLEAR_PAGE		"\x1b[0J"
+#define GO_TOP				"\x1b[1H"
 
 struct node {
 	struct node * next;
@@ -100,7 +103,7 @@ print() {
 	n = front;
 	while (n) {
 		char * name = getname(n);
-		printf("%s\x1b[0K\n", name);
+		printf(CLEAR_LINE "%s\n", name);
 		n = n->next;
 	}
 }
@@ -141,9 +144,9 @@ main(int argc, char *argv[]) {
 		default:
 			continue;
 		}
-		printf("\x1b[1H");
+		printf(GO_TOP);
 		print();
-		printf("\x1b[0J");
+		printf(CLEAR_PAGE);
 		fflush(stdout);
 	}
 	clear();
