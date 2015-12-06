@@ -1,0 +1,29 @@
+bbcl - bitlbee contact list for irc it
+======================================
+
+This small program prints out contact list of users connecting to bitlbee[2]
+client from output made by ii[1]. The contact list is updated with every new
+line incoming to the standard input of bbcl.
+
+It works only for bitlbee<->ii scenario.
+
+It uses ANSI escape codes to format output.
+
+Building
+--------
+
+To build bbcl simply type make. You may want change config.mk depending on your
+system.
+
+Running bbcl
+------------
+
+Simply put ii out file to the standard input of bbcl.
+
+Example
+-------
+
+$ tail -fn0 ~/irc/localhost/out | bbcl
+
+[1] http://tools.suckless.org/ii/
+[2] https://www.bitlbee.org/
