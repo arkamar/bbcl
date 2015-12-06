@@ -104,7 +104,7 @@ print() {
 	n = front;
 	while (n) {
 		char * name = getname(n);
-		printf(CLEAR_LINE "%s\n", name);
+		printf("%s" CLEAR_LINE "\n", name);
 		n = n->next;
 	}
 }
