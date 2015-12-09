@@ -34,7 +34,7 @@ static struct node *
 find(const char * name, struct node ** ret) {
 	struct node * n = front;
 	while (n) {
-		int comparison = strcmp(name, getname(n));
+		int comparison = strcasecmp(name, getname(n));
 		if (ret && comparison > 0)
 			*ret = n;
 		if (comparison < 0)
