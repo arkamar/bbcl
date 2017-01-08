@@ -15,6 +15,7 @@ struct node {
 	struct node * next;
 	struct node * prev;
 	size_t len;
+	char name[];
 };
 
 static struct node * front = NULL;
@@ -27,8 +28,10 @@ endname(char * name, const char end) {
 	return ob;
 }
 
-#define getname(node) \
-	((char *)(node + 1))
+static char *
+getname(struct node * node) {
+	return node->name;
+}
 
 static struct node *
 find(const char * name, struct node ** ret) {
@@ -57,7 +60,7 @@ add(const char * name) {
 		perror("Cannont allocate memmory");
 		return -1;
 	}
-	memcpy(new + 1, name, len);
+	memcpy(new->name, name, len);
 
 	new->prev = la;
 	if (la != NULL) { /* I am in middle */
