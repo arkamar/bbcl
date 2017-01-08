@@ -28,16 +28,11 @@ endname(char * name, const char end) {
 	return ob;
 }
 
-static char *
-getname(struct node * node) {
-	return node->name;
-}
-
 static struct node *
 find(const char * name, struct node ** ret) {
 	struct node * n = front;
 	while (n) {
-		int comparison = strcasecmp(name, getname(n));
+		int comparison = strcasecmp(name, n->name);
 		if (ret && comparison > 0)
 			*ret = n;
 		if (comparison < 0)
@@ -106,8 +101,7 @@ print() {
 	struct node * n;
 	n = front;
 	while (n) {
-		char * name = getname(n);
-		printf("%s" CLEAR_LINE "\n", name);
+		printf("%s" CLEAR_LINE "\n", n->name);
 		n = n->next;
 	}
 }
