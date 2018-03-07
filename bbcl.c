@@ -120,21 +120,24 @@ int
 main(int argc, char *argv[]) {
 	char * buff = NULL;
 	size_t size = 0;
+	ssize_t len;
 	char * name;
-	while (getline(&buff, &size, stdin) > 0) {
-		if (size < 21)
+	int position = 0;
+	while ((len = getline(&buff, &size, stdin)) > 0) {
+		position = strchr(buff, ' ') - buff + 2;
+		if (position > 0 && len < position + 3)
 			continue;
-		switch (buff[18]) {
+		switch (buff[position]) {
 		case '!':
-			name = buff + 21;
+			name = buff + position + 3;
 			if (!endname(name, '('))
 				continue;
 			delete(name);
 			break;
 		case 'v':
-			name = buff + 19;
+			name = buff + position + 2;
 			endname(name, '\n');
-			if (buff[17] == '+')
+			if (buff[position - 1] == '+')
 				add(name);
 			else
 				away(name);
